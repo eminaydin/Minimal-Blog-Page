@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { Input } from 'semantic-ui-react'
+import { connect } from 'react-redux';
 
-const ProductDetails = ({ match, data }) => {
-    const [id, setId] = useState(null);
-    const currentItem = data.find(eachProduct => eachProduct.slug === match.params.slug);
-    useEffect(() => {
+const ProductDetails = (props) => {
 
-        console.log(currentItem);
 
-    }, []);
+
 
     return (
         <div>
-            {currentItem.text}
+            {props.post.text}
+            <Input />
         </div>
     );
 }
+const mapStateToProps = (state, ownProps) => {
+    console.log(ownProps);
+    let slug = ownProps.match.params.slug;
 
-export default ProductDetails;
+    return {
+        post: state.posts.find(post => post.slug === slug)
+    }
+}
+export default connect(mapStateToProps)(ProductDetails);

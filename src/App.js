@@ -9,6 +9,7 @@ import {
 import ProductDetails from './components/ProductDetails';
 import Home from './components/Home';
 import data from "./data.json"
+
 function App() {
   return (
     <Router>

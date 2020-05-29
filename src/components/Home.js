@@ -1,12 +1,14 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
-const Home = ({ data }) => {
+import { connect } from 'react-redux';
+
+const Home = (props) => {
+    const { data } = props;
+    console.log(props);
 
     return (
         <Segment.Group raised>
-
-
 
             {data.map(product => {
 
@@ -17,5 +19,9 @@ const Home = ({ data }) => {
         </Segment.Group>
     );
 }
-
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    }
+}
+export default connect(mapStateToProps)(Home);
