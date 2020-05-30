@@ -15,7 +15,7 @@ function App() {
     <Router>
 
       <Switch>
-        <Route path={'/:slug'} render={(props) => <ProductDetails data={data} {...props} />} />
+        <Route path={'/:slug'} render={(props) => <ProductDetails  {...props} />} />
         <Route path="/" render={(props) => <Home data={data}  {...props} />} />
       </Switch>
     </Router>
