@@ -1,10 +1,21 @@
 import data from ".././data.json"
+import { connect } from "react-redux"
 const initState = {
-    posts: data
+    posts: data,
+    comments: []
 }
-console.log(initState);
+
 
 const rootReducer = (state = initState, action) => {
+
+    if (action.type === "ADD_COMMENT") {
+        return {
+            ...state,
+            comments: [...state.comments, action.payload.comment]
+        }
+    }
+
+
     return state
 }
 
