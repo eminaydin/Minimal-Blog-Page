@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 
 const Home = (props) => {
     const { data } = props;
-    console.log(props);
 
     return (
-        <Segment.Group raised>
+        <Segment.Group >
 
             {data.map(({ slug, title, id }) => {
 
