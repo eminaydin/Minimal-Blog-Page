@@ -10,10 +10,10 @@ const Home = (props) => {
     return (
         <Segment.Group raised>
 
-            {data.map(product => {
+            {data.map(({ slug, title, id }) => {
 
-                return <Link to={`${product.slug}`}>
-                    <Segment>{product.title}</Segment>
+                return <Link to={`${slug}`} key={id}>
+                    <Segment>{title}</Segment>
                 </Link>
             })}
         </Segment.Group>
