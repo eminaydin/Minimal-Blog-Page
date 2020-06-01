@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input, Button, Comment, Header, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
