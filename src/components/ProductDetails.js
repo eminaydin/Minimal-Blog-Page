@@ -25,50 +25,49 @@ const ProductDetails = (props) => {
         })
 
     }
-    useEffect(() => {
-
-    }, []);
-
+    function createMarkup() {
+        return { __html: props.posts.htmlText };
+    };
 
     return (
         <div>
-            {props.posts ? props.posts.text : null}
-            <Header as='h3' dividing>
-                Comments
-                    </Header>
-            {props.comments.filter(comment => {
-                return comment.postId === props.match.params.slug
-            }).map(({ text, id, date, userName }) => {
-                const dateToFormat = new Date(date)
+            {props.posts ? <div dangerouslySetInnerHTML={createMarkup()} /> : null}
+            <Header as='h3' dividing> Comments</Header>
+
+            {props.comments.length > 0 ?
+                props.comments.filter(comment => {
+                    return comment.postId === props.match.params.slug
+                }).map(({ text, id, date, userName }) => {
+                    const dateToFormat = new Date(date);
+                    return (
+                        <Comment.Group minimal key={id}>
+                            <Comment>
+                                <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/ade.jpg' />
+                                <Comment.Content>
+                                    <Comment.Author as='a'>{userName}</Comment.Author>
+                                    <Comment.Metadata>
+                                        <span><Moment date={dateToFormat} fromNow ago /></span>
+                                    </Comment.Metadata>
+                                    <Comment.Text>{text}</Comment.Text>
+                                    <Comment.Actions>
+                                        <a onClick={() => props.deleteComment(id)}>Delete</a>
+                                    </Comment.Actions>
+                                </Comment.Content>
+                            </Comment>
+                        </Comment.Group>
 
 
-                return (
-                    <Comment.Group minimal key={id}>
+                    )
+                })
+                :
+                <Header as="h2" content="No comments yet." textAlign="center" />}
 
-                        <Comment>
-                            <Comment.Avatar as='a' src='/images/avatar/small/matt.jpg' />
-                            <Comment.Content>
-                                <Comment.Author as='a'>{userName}</Comment.Author>
-                                <Comment.Metadata>
-                                    <span><Moment date={dateToFormat} fromNow ago /></span>
-                                </Comment.Metadata>
-                                <Comment.Text>{text}</Comment.Text>
-                                <Comment.Actions>
-                                    <a onClick={() => props.deleteComment(id)}>Delete</a>
-                                </Comment.Actions>
-                            </Comment.Content>
-                        </Comment>
-                    </Comment.Group>
-
-
-                )
-            })}
-            <Form reply>
+            <Form reply onSubmit={clickHandler}>
                 <Input placeholder="Your username" className="input" required value={commentObject.userName} onChange={username => setCommentObject({ ...commentObject, userName: username.target.value })} />
 
-                <Form.TextArea value={commentObject.text} required
+                <Form.TextArea value={commentObject.text} required placeholder="Please type your comment here"
                     onChange={comment => setCommentObject({ ...commentObject, text: comment.target.value, date: new Date(), id: Date.now(), postId: props.match.params.slug })} />
-                <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={clickHandler} />
+                <Button content='Add Reply' labelPosition='left' icon='edit' primary />
             </Form>
 
 
