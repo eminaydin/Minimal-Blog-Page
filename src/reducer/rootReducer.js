@@ -1,5 +1,4 @@
 import data from ".././data.json"
-import { connect } from "react-redux"
 const initState = {
     posts: data,
     comments: []
@@ -12,6 +11,13 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             comments: [...state.comments, action.payload.comment]
+        }
+    }
+    if (action.type === "DELETE_COMMENT") {
+        let newComments = state.comments.filter(comment => comment.id !== action.id)
+        return {
+            ...state,
+            comments: newComments
         }
     }
 
