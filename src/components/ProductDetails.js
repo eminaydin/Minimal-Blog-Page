@@ -13,7 +13,6 @@ const ProductDetails = (props) => {
 
     });
     const [correctPost, setCorrectPost] = useState({});
-    console.log(correctPost);
 
 
     const clickHandler = () => {
@@ -31,23 +30,29 @@ const ProductDetails = (props) => {
     function createMarkup() {
         return { __html: correctPost.htmlText };
     };
-    const filteredItems = (slug) => {
-        return props.posts.filter(comment => {
-            return comment === correctPost
-        });
-    }
+
     useEffect(() => {
         setCorrectPost(props.posts.find(post => post.slug === props.match.params.slug));
     }, [props.match.params.slug, props.posts]);
+
 
     return (
         <div>
             {correctPost ? <div dangerouslySetInnerHTML={createMarkup()} /> : null}
             <Header as='h3' dividing> Comments</Header>
+            <Form reply onSubmit={clickHandler}>
+                <Input placeholder="Your username" className="input" required value={commentObject.userName} onChange={username => setCommentObject({ ...commentObject, userName: username.target.value })} />
 
-            {correctPost.comments ?
+                <Form.TextArea value={commentObject.text} required placeholder="Please type your comment here"
+                    onChange={comment => setCommentObject({ ...commentObject, text: comment.target.value, date: new Date(), id: Date.now(), postSlug: props.match.params.slug })} />
+                <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+            </Form>
+
+            {correctPost.comments && correctPost.comments.length > 0 ?
                 correctPost.comments.map(({ text, id, date, userName }) => {
                     const dateToFormat = new Date(date);
+
+
                     return (
                         <Comment.Group minimal key={id}>
                             <Comment>
@@ -64,20 +69,11 @@ const ProductDetails = (props) => {
                                 </Comment.Content>
                             </Comment>
                         </Comment.Group>
-
-
                     )
                 })
                 :
-                <Header as="h2" content="No comments yet." textAlign="center" />}
+                <Header as="h2" content="No comments yet" textAlign="center" />}
 
-            <Form reply onSubmit={clickHandler}>
-                <Input placeholder="Your username" className="input" required value={commentObject.userName} onChange={username => setCommentObject({ ...commentObject, userName: username.target.value })} />
-
-                <Form.TextArea value={commentObject.text} required placeholder="Please type your comment here"
-                    onChange={comment => setCommentObject({ ...commentObject, text: comment.target.value, date: new Date(), id: Date.now(), postSlug: props.match.params.slug })} />
-                <Button content='Add Reply' labelPosition='left' icon='edit' primary />
-            </Form>
 
 
         </div>
@@ -103,7 +99,7 @@ const mapDispatchToProps = (dispatch) => {
                         text: object.text,
                         date: object.date,
                         id: object.id,
-                        postSlug: object.postSlug
+                        postSlug: object.postSlug,
                     },
                     slug: object.postSlug
                 }
@@ -111,12 +107,14 @@ const mapDispatchToProps = (dispatch) => {
         },
 
 
-        deleteComment: (id, slug) => {
+        deleteComment: (id, slug, index) => {
             dispatch({
                 type: "DELETE_COMMENT",
                 payload: {
                     id,
-                    slug
+                    slug,
+                    index
+
                 }
             })
         }
