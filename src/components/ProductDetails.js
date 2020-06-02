@@ -50,8 +50,7 @@ const ProductDetails = (props) => {
 
             {correctPost.comments && correctPost.comments.length > 0 ?
                 correctPost.comments.map(({ text, id, date, userName }) => {
-                    const dateToFormat = new Date(date);
-
+                    const dateToFormat = new Date(date)
 
                     return (
                         <Comment.Group minimal key={id}>
