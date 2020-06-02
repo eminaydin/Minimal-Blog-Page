@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Comment, Header, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 
 const ProductDetails = (props) => {
 
-
     const [commentObject, setCommentObject] = useState({
         userName: "",
         text: "",
         date: "",
-        id: ""
+        id: "",
+
     });
+    const [correctPost, setCorrectPost] = useState({});
+    console.log(correctPost);
+
 
     const clickHandler = () => {
         if (!commentObject.text.trim() || !commentObject.userName.trim()) {
@@ -26,18 +29,24 @@ const ProductDetails = (props) => {
 
     }
     function createMarkup() {
-        return { __html: props.posts.htmlText };
+        return { __html: correctPost.htmlText };
     };
+    const filteredItems = (slug) => {
+        return props.posts.filter(comment => {
+            return comment === correctPost
+        });
+    }
+    useEffect(() => {
+        setCorrectPost(props.posts.find(post => post.slug === props.match.params.slug));
+    }, [props.match.params.slug, props.posts]);
 
     return (
         <div>
-            {props.posts ? <div dangerouslySetInnerHTML={createMarkup()} /> : null}
+            {correctPost ? <div dangerouslySetInnerHTML={createMarkup()} /> : null}
             <Header as='h3' dividing> Comments</Header>
 
-            {props.comments.length > 0 ?
-                props.comments.filter(comment => {
-                    return comment.postId === props.match.params.slug
-                }).map(({ text, id, date, userName }) => {
+            {correctPost.comments ?
+                correctPost.comments.map(({ text, id, date, userName }) => {
                     const dateToFormat = new Date(date);
                     return (
                         <Comment.Group minimal key={id}>
@@ -50,7 +59,7 @@ const ProductDetails = (props) => {
                                     </Comment.Metadata>
                                     <Comment.Text>{text}</Comment.Text>
                                     <Comment.Actions>
-                                        <a onClick={() => props.deleteComment(id)}>Delete</a>
+                                        <a onClick={() => props.deleteComment(id, props.match.params.slug)}>Delete</a>
                                     </Comment.Actions>
                                 </Comment.Content>
                             </Comment>
@@ -66,7 +75,7 @@ const ProductDetails = (props) => {
                 <Input placeholder="Your username" className="input" required value={commentObject.userName} onChange={username => setCommentObject({ ...commentObject, userName: username.target.value })} />
 
                 <Form.TextArea value={commentObject.text} required placeholder="Please type your comment here"
-                    onChange={comment => setCommentObject({ ...commentObject, text: comment.target.value, date: new Date(), id: Date.now(), postId: props.match.params.slug })} />
+                    onChange={comment => setCommentObject({ ...commentObject, text: comment.target.value, date: new Date(), id: Date.now(), postSlug: props.match.params.slug })} />
                 <Button content='Add Reply' labelPosition='left' icon='edit' primary />
             </Form>
 
@@ -74,21 +83,43 @@ const ProductDetails = (props) => {
         </div>
     );
 }
-const mapStateToProps = (state, ownProps) => {
 
-    let slug = ownProps.match.params.slug;
-
-
+const mapStateToProps = (state) => {
     return {
         ...state,
-        posts: state.posts.find(post => post.slug === slug),
-
     }
 }
+
 const mapDispatchToProps = (dispatch) => {
+
+
     return {
-        addNewComment: (object) => { dispatch({ type: "ADD_COMMENT", payload: { comment: { userName: object.userName, text: object.text, date: object.date, id: object.id, postId: object.postId } } }) },
-        deleteComment: (id) => { dispatch({ type: "DELETE_COMMENT", id: id }) }
+        addNewComment: (object) => {
+            dispatch({
+                type: "ADD_COMMENT",
+                payload: {
+                    comment: {
+                        userName: object.userName,
+                        text: object.text,
+                        date: object.date,
+                        id: object.id,
+                        postSlug: object.postSlug
+                    },
+                    slug: object.postSlug
+                }
+            })
+        },
+
+
+        deleteComment: (id, slug) => {
+            dispatch({
+                type: "DELETE_COMMENT",
+                payload: {
+                    id,
+                    slug
+                }
+            })
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
