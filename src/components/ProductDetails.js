@@ -13,8 +13,6 @@ const ProductDetails = (props) => {
 
     });
     const [correctPost, setCorrectPost] = useState({});
-
-
     const clickHandler = () => {
         if (!commentObject.text.trim() || !commentObject.userName.trim()) {
             return

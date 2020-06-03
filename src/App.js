@@ -11,7 +11,7 @@ import ProductDetails from './components/ProductDetails';
 import Home from './components/Home';
 import data from "./data.json"
 import { Menu } from 'semantic-ui-react';
-
+import 'semantic-ui-css/semantic.min.css'
 function App() {
   function markUp() {
     return <Router>
