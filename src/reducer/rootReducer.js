@@ -20,19 +20,14 @@ const rootReducer = (state = initState, action) => {
     if (action.type === "DELETE_COMMENT") {
         let posts = [...state.posts];
         posts = state.posts.map(post => {
-            let newPost = { ...post }
-
-            if (newPost.slug === action.payload.slug) {
-                let newArray = [...newPost.comments]
+            if (post.slug === action.payload.slug) {
+                let newArray = [...post.comments]
                 const filteredComments = newArray.filter(comment => comment.id !== action.payload.id)
-                console.log(filteredComments);
-
+                return { ...post, comments: filteredComments }
             }
-            return { ...post, newPost }
+            return post
         }
-
         );
-        console.log(posts);
 
 
         return { ...state, posts }
