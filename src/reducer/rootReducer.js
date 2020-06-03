@@ -28,8 +28,6 @@ const rootReducer = (state = initState, action) => {
             return post
         }
         );
-
-
         return { ...state, posts }
     }
     return state

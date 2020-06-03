@@ -13,17 +13,19 @@ import data from "./data.json"
 import { Menu } from 'semantic-ui-react';
 
 function App() {
-  return (
-    <Router>
+  function markUp() {
+    return <Router>
       <Menu >
         <Menu.Item icon="home" as={Link} to="/" />
-
       </Menu>
       <Switch>
         <Route path={'/:slug'} render={(props) => <ProductDetails  {...props} />} />
         <Route path="/" render={(props) => <Home data={data}  {...props} />} />
       </Switch>
     </Router>
+  }
+  return (
+    markUp()
   );
 }
 
