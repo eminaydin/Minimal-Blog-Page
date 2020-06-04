@@ -13,6 +13,7 @@ const ProductDetails = (props) => {
 
     });
     const [correctPost, setCorrectPost] = useState({});
+
     const clickHandler = () => {
         if (!commentObject.text.trim() || !commentObject.userName.trim()) {
             return
@@ -110,14 +111,12 @@ const mapDispatchToProps = (dispatch) => {
         },
 
 
-        deleteComment: (id, slug, index) => {
+        deleteComment: (id, slug) => {
             dispatch({
                 type: "DELETE_COMMENT",
                 payload: {
                     id,
                     slug,
-                    index
-
                 }
             })
         }

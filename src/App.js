@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import ProductDetails from './components/ProductDetails';
 import Home from './components/Home';
-import data from "./data.json"
 import { Menu } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css'
 function App() {
@@ -19,8 +18,8 @@ function App() {
         <Menu.Item icon="home" as={Link} to="/" />
       </Menu>
       <Switch>
-        <Route path={'/:slug'} render={(props) => <ProductDetails  {...props} />} />
-        <Route path="/" render={(props) => <Home data={data}  {...props} />} />
+        <Route path={'/:slug'} component={ProductDetails} />
+        <Route path="/" component={Home} />
       </Switch>
     </Router>
   }

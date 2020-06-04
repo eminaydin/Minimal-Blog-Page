@@ -34,7 +34,6 @@ const Home = (props) => {
 const mapStateToProps = (state) => {
 
     return {
-        ...state,
         posts: state.posts
     }
 }
