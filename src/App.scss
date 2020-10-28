@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap");
+@mixin fontStyle {
+  color: #ffeaea !important;
+  font-size: 1.4em !important;
+  font-family: "Rajdhani", sans-serif;
+}
+@mixin justifyText {
+  text-align: justify;
+}
+@mixin capitalize {
+  text-transform: capitalize;
+}
+body {
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 157, 129, 1) 24.3%,
+    rgba(255, 78, 78, 1) 78.3%
+  ) !important;
+}
+#root {
+  width: 70%;
+}
+.input {
+  margin-bottom: 20px;
+}
+.header {
+  color: #ffeaea !important;
+  @include capitalize();
+  @include fontStyle();
+}
+.description {
+  @include justifyText();
+  @include fontStyle();
+}
+p {
+  @include justifyText();
+  @include fontStyle();
+}
+h2 {
+  @include capitalize();
+  @include fontStyle();
+}
+.extra {
+  font-style: italic;
+  @include fontStyle();
+}
+@media only screen and (max-width: 768px) {
+  #root {
+    width: 100%;
+    margin: 1em;
+  }
+}

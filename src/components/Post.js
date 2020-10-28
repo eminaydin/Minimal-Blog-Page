@@ -13,6 +13,7 @@ const Post = (props) => {
   });
   const [correctPost, setCorrectPost] = useState({});
   const dispatch = useDispatch();
+  const paramsSlug = props.match.params.slug;
   const clickHandler = () => {
     if (!commentObject.text.trim() || !commentObject.userName.trim()) {
       return;
@@ -34,8 +35,8 @@ const Post = (props) => {
   }
 
   useEffect(() => {
-    setCorrectPost(posts.find((post) => post.slug === props.match.params.slug));
-  }, [props.match.params.slug, posts]);
+    setCorrectPost(posts.find((post) => post.slug === paramsSlug));
+  }, [paramsSlug, posts]);
 
   function form() {
     return (
@@ -63,7 +64,7 @@ const Post = (props) => {
               text: comment.target.value,
               date: new Date(),
               id: Date.now(),
-              postSlug: props.match.params.slug,
+              postSlug: paramsSlug,
             })
           }
         />
@@ -96,7 +97,7 @@ const Post = (props) => {
                     onClick={() =>
                       dispatch({
                         type: "DELETE_COMMENT",
-                        payload: { id: id, slug: props.match.params.slug },
+                        payload: { id: id, slug: paramsSlug },
                       })
                     }
                   >
@@ -115,7 +116,6 @@ const Post = (props) => {
   function commentHeader() {
     return (
       <Header as="h3" dividing>
-        {" "}
         Comments
       </Header>
     );
