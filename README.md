@@ -1,4 +1,4 @@
-## Blog Comments
+## Minimal Blog Page
 
 <a href="https://react-blog-store.netlify.app/" target="_blank"><h3 align="left">Click here for demo</h3></a>
 
@@ -17,7 +17,7 @@ This website was particularly enjoyable to create since I have learnt a lot on t
 
 ## Preview
 
-![Blog Comments](src/assets/blog.gif)
+![Minimal Blog Page](src/assets/blog.gif)
 
 ## Technologies
 
