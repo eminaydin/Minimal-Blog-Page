@@ -93,16 +93,17 @@ const Post = (props) => {
                 </Comment.Metadata>
                 <Comment.Text>{text}</Comment.Text>
                 <Comment.Actions>
-                  <a
+                  <span
                     onClick={() =>
                       dispatch({
                         type: "DELETE_COMMENT",
                         payload: { id: id, slug: paramsSlug },
                       })
                     }
+                    className="delete"
                   >
                     Delete
-                  </a>
+                  </span>
                 </Comment.Actions>
               </Comment.Content>
             </Comment>
