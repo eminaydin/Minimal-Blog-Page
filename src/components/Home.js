@@ -38,7 +38,7 @@ const Home = () => {
                 <Item.Header as="a">{title}</Item.Header>
                 <Item.Description>{text}</Item.Description>
                 <Item.Extra>
-                  <Icon color="blue" name="comment" /> {checkComments(comments)}
+                  <Icon color="grey" name="comment" /> {checkComments(comments)}
                 </Item.Extra>
               </Item.Content>
             </Item>
